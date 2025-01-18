@@ -2,13 +2,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Settings")]
     public float speed = 1f;
-    public int health = 200;
+    public int FullHp = 200;
+    int currentHp;
+
+    [Header("References")]
+    public RectTransform frontHpBar;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        currentHp = FullHp;
     }
 
     // Update is called once per frame
@@ -19,10 +24,11 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
-        if (health < 0)
+        currentHp -= damage;
+        if (currentHp <= 0)
         {
             Destroy(gameObject);
         }
+        frontHpBar.localScale = new Vector3((float)currentHp / FullHp, 1f, 1f);
     }
 }
