@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour
         currentHp -= damage;
         if (currentHp <= 0)
         {
+            GameManager.Instance.SpawnEnemy(5f);
             Destroy(gameObject);
         }
         frontHpBar.localScale = new Vector3((float)currentHp / FullHp, 1f, 1f);
