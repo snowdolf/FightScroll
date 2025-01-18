@@ -1,13 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("References")]
-    public GameObject enemyObject;
-    public GameObject arrowObject;
+    public int enemyIndex = 0;
+
+    private GameObject enemyPrefab;
+    private GameObject arrowPrefab;
+    private List<EnemyData> enemyDataList;
 
     private void Awake()
     {
@@ -23,6 +26,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        enemyPrefab = Resources.Load<GameObject>("Prefabs/enemy");
+        arrowPrefab = Resources.Load<GameObject>("Prefabs/arrow");
+        enemyDataList = CSVManager.LoadEnemyData("SampleMonster");
         SpawnEnemy();
     }
 
@@ -34,12 +40,26 @@ public class GameManager : MonoBehaviour
     private IEnumerator SpawnEnemyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        Instantiate(enemyObject);
+
+        if (enemyIndex >= enemyDataList.Count)
+        {
+            yield break;
+        }
+
+        EnemyData enemyData = enemyDataList[enemyIndex];
+
+        GameObject enemyInstance = Instantiate(enemyPrefab);
+        Enemy enemy = enemyInstance.GetComponent<Enemy>();
+
+        if (enemy != null)
+        {
+            enemy.enemyData = enemyData;
+        }
     }
 
     public void SpawnArrow(int damage)
     {
-        GameObject arrowInstance = Instantiate(arrowObject);
+        GameObject arrowInstance = Instantiate(arrowPrefab);
         Arrow arrow = arrowInstance.GetComponent<Arrow>();
 
         if (arrow != null)

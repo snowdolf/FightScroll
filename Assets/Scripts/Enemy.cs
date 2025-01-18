@@ -2,9 +2,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Settings")]
-    public float speed = 1f;
-    public int FullHp = 200;
+    public EnemyData enemyData;
     int currentHp;
 
     [Header("References")]
@@ -13,13 +11,13 @@ public class Enemy : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentHp = FullHp;
+        currentHp = enemyData.hp;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.left * speed * Time.deltaTime;
+        transform.position += Vector3.left * enemyData.speed * Time.deltaTime;
     }
 
     public void TakeDamage(int damage)
@@ -27,9 +25,18 @@ public class Enemy : MonoBehaviour
         currentHp -= damage;
         if (currentHp <= 0)
         {
+            GameManager.Instance.enemyIndex++;
             GameManager.Instance.SpawnEnemy(5f);
             Destroy(gameObject);
         }
-        frontHpBar.localScale = new Vector3((float)currentHp / FullHp, 1f, 1f);
+        frontHpBar.localScale = new Vector3((float)currentHp / enemyData.hp, 1f, 1f);
     }
+}
+
+public class EnemyData
+{
+    public string name;
+    public string grade;
+    public float speed;
+    public int hp;
 }
