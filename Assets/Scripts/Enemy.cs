@@ -20,9 +20,13 @@ public class Enemy : MonoBehaviour
         transform.position += Vector3.left * enemyData.speed * Time.deltaTime;
         if (transform.position.x <= -10f)
         {
-            GameManager.Instance.SpawnEnemy(5f);
-            Destroy(gameObject);
+            DeadEnemy();
         }
+    }
+
+    private void OnMouseDown()
+    {
+        UIManager.Instance.OpenPanel(enemyData, currentHp);
     }
 
     public void TakeDamage(int damage)
@@ -31,10 +35,20 @@ public class Enemy : MonoBehaviour
         if (currentHp <= 0)
         {
             GameManager.Instance.enemyIndex++;
-            GameManager.Instance.SpawnEnemy(5f);
-            Destroy(gameObject);
+            DeadEnemy();
         }
-        frontHpBar.localScale = new Vector3((float)currentHp / enemyData.hp, 1f, 1f);
+        else
+        {
+            frontHpBar.localScale = new Vector3((float)currentHp / enemyData.hp, 1f, 1f);
+            UIManager.Instance.UpdatePanel(enemyData, currentHp);
+        }
+    }
+
+    private void DeadEnemy()
+    {
+        GameManager.Instance.SpawnEnemy(5f);
+        UIManager.Instance.ClosePanel();
+        Destroy(gameObject);
     }
 }
 
