@@ -1932,11 +1932,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88a80fc3044499844981c1c20f90b374, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 13
+  radius: 10
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
   damage: 100
+  animator: {fileID: 1569832815}
 --- !u!1 &1580513327
 GameObject:
   m_ObjectHideFlags: 0
@@ -3072,6 +3073,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyObject: {fileID: 5560387282669471055, guid: bd62e89f1f1398f4bb7cb701b18226fc, type: 3}
+  arrowObject: {fileID: 2130088594129889164, guid: e0b407a698b039447a591a89721b9395, type: 3}
 --- !u!1 &2008020648
 GameObject:
   m_ObjectHideFlags: 0

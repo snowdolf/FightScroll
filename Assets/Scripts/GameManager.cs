@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     [Header("References")]
     public GameObject enemyObject;
+    public GameObject arrowObject;
 
     private void Awake()
     {
@@ -34,5 +35,16 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         Instantiate(enemyObject);
+    }
+
+    public void SpawnArrow(int damage)
+    {
+        GameObject arrowInstance = Instantiate(arrowObject);
+        Arrow arrow = arrowInstance.GetComponent<Arrow>();
+
+        if (arrow != null)
+        {
+            arrow.damage = damage;
+        }
     }
 }

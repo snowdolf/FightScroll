@@ -2,9 +2,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float radius = 13f;
+    [Header("Settings")]
+    public float radius = 10f;
     public LayerMask enemyLayer;
     public int damage = 100;
+
+    [Header("References")]
+    public Animator animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,14 +26,19 @@ public class Player : MonoBehaviour
 
             if (enemy != null)
             {
-                AttackEnemy(enemy);
+                PlayArrowAnimation();
             }
         }
     }
 
-    void AttackEnemy(Enemy enemy)
+    void PlayArrowAnimation()
     {
-        enemy.TakeDamage(damage);
+        animator.SetTrigger("IsAttack");
+    }
+
+    public void ShootArrow()
+    {
+        GameManager.Instance.SpawnArrow(damage);
     }
 
     private void OnDrawGizmosSelected()
