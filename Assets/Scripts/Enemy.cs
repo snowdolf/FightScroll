@@ -8,6 +8,13 @@ public class Enemy : MonoBehaviour
     [Header("References")]
     public RectTransform frontHpBar;
 
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -50,6 +57,12 @@ public class Enemy : MonoBehaviour
         UIManager.Instance.ClosePanel();
         Destroy(gameObject);
     }
+
+    public void UpdateAnimation()
+    {
+        string animatorPath = "Animators/" + enemyData.animatorFileName;
+        animator.runtimeAnimatorController = Resources.Load<RuntimeAnimatorController>(animatorPath);
+    }
 }
 
 public class EnemyData
@@ -58,4 +71,5 @@ public class EnemyData
     public string grade;
     public float speed;
     public int hp;
+    public string animatorFileName;
 }

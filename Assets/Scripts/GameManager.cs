@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private GameObject enemyPrefab;
     private GameObject arrowPrefab;
-    private List<EnemyData> enemyDataList;
+    private List<Dictionary<string, object>> enemyDataList;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     {
         enemyPrefab = Resources.Load<GameObject>("Prefabs/enemy");
         arrowPrefab = Resources.Load<GameObject>("Prefabs/arrow");
-        enemyDataList = CSVManager.LoadEnemyData("SampleMonster");
+        enemyDataList = CSVReader.Read("SampleMonster");
         SpawnEnemy();
     }
 
@@ -41,15 +41,18 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        EnemyData enemyData;
         if (enemyIndex >= enemyDataList.Count)
         {
-            enemyData = enemyDataList[Random.Range(0, enemyDataList.Count)];
+            enemyIndex = Random.Range(0, enemyDataList.Count);
         }
-        else
+        EnemyData enemyData = new()
         {
-            enemyData = enemyDataList[enemyIndex];
-        }
+            name = enemyDataList[enemyIndex]["Name"].ToString(),
+            grade = enemyDataList[enemyIndex]["Grade"].ToString(),
+            speed = float.Parse(enemyDataList[enemyIndex]["Speed"].ToString()),
+            hp = int.Parse(enemyDataList[enemyIndex]["Health"].ToString()),
+            animatorFileName = enemyDataList[enemyIndex]["Animator"].ToString()
+        };
 
         GameObject enemyInstance = Instantiate(enemyPrefab);
         Enemy enemy = enemyInstance.GetComponent<Enemy>();
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
         if (enemy != null)
         {
             enemy.enemyData = enemyData;
+            enemy.UpdateAnimation();
         }
     }
 
