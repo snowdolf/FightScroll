@@ -10,7 +10,7 @@ public class Arrow : MonoBehaviour
     void Update()
     {
         transform.position += Vector3.right * speed * Time.deltaTime;
-        if (transform.position.x >= 20f)
+        if (transform.position.x >= 10f)
         {
             Destroy(gameObject);
         }

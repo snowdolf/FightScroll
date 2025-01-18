@@ -41,12 +41,15 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
+        EnemyData enemyData;
         if (enemyIndex >= enemyDataList.Count)
         {
-            yield break;
+            enemyData = enemyDataList[Random.Range(0, enemyDataList.Count)];
         }
-
-        EnemyData enemyData = enemyDataList[enemyIndex];
+        else
+        {
+            enemyData = enemyDataList[enemyIndex];
+        }
 
         GameObject enemyInstance = Instantiate(enemyPrefab);
         Enemy enemy = enemyInstance.GetComponent<Enemy>();

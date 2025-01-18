@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("Settings")]
-    public float radius = 10f;
     public LayerMask enemyLayer;
-    public int damage = 100;
 
-    [Header("References")]
-    public Animator animator;
+    private float radius = 12f;
+    private int damage = 100;
+
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,13 +26,21 @@ public class Player : MonoBehaviour
 
         if (detectedEnemy != null)
         {
-            Enemy enemy = detectedEnemy.GetComponent<Enemy>();
-
-            if (enemy != null)
+            if (IsEnemyFront(detectedEnemy.transform))
             {
-                PlayArrowAnimation();
+                Enemy enemy = detectedEnemy.GetComponent<Enemy>();
+
+                if (enemy != null)
+                {
+                    PlayArrowAnimation();
+                }
             }
         }
+    }
+
+    bool IsEnemyFront(Transform enemyTransform)
+    {
+        return enemyTransform.position.x - transform.position.x > 1f;
     }
 
     void PlayArrowAnimation()

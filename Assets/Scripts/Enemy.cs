@@ -18,6 +18,11 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         transform.position += Vector3.left * enemyData.speed * Time.deltaTime;
+        if (transform.position.x <= -10f)
+        {
+            GameManager.Instance.SpawnEnemy(5f);
+            Destroy(gameObject);
+        }
     }
 
     public void TakeDamage(int damage)
